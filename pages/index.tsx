@@ -68,7 +68,7 @@ export default function Home() {
 	const filteredSearch = filteredTld.filter(d => d.includes(searchValue.toLowerCase()));
 
 	return (
-		<div className="flex flex-col h-screen justify-between">
+		<div className="flex flex-col justify-between h-screen">
 			<div
 				className="flex flex-col items-start justify-center w-full max-w-4xl px-6 pt-6 mx-auto sm:pt-6 md:pt-10 lg:pt-12">
 				<SEO />
@@ -127,10 +127,10 @@ export default function Home() {
 				</div>
 			</div>
 
-			<div className="flex flex-col justify-center w-full max-w-4xl px-6 py-6 mb-2 mx-auto">
+			<div className="flex flex-col justify-center w-full max-w-4xl px-6 py-6 mx-auto mb-2">
 				<hr className="w-full border-gray-300 rounded-lg" />
 
-				<div className="flex flex-row justify-between bottom-0 w-full mt-8">
+				<div className="bottom-0 flex flex-row justify-between w-full mt-8">
 					<div>
 						Built by <a className="font-medium" href="https://lavya.me">Lav</a>
 					</div>
