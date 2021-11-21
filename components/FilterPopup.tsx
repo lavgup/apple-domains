@@ -68,12 +68,17 @@ export default function FilterPopup({ domains }) {
 						>
 							<div
 								className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle bg-white shadow-2xl transition-all transform rounded-2xl">
-								<Dialog.Title
-									as="h3"
-									className="text-lg font-medium text-gray-900 leading-6"
-								>
-									Filters
-								</Dialog.Title>
+								<div className="flex flex-row justify-between">
+									<Dialog.Title
+										as="h3"
+										className="text-lg font-medium text-gray-900 leading-6"
+									>
+										Filters
+									</Dialog.Title>
+									<button onClick={closeModal}>
+										<CloseIcon className="w-5 h-5 mt-0.5" />
+									</button>
+								</div>
 								<Dialog.Description as="p" className="mt-2 text-sm text-gray-500">
 									Filter domain name results.
 								</Dialog.Description>
@@ -146,6 +151,25 @@ function FilterIcon(props) {
 				strokeLinejoin="round"
 				strokeWidth={2}
 				d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+			/>
+		</svg>
+	)
+}
+
+function CloseIcon(props) {
+	return (
+		<svg
+			{...props}
+			fill="none"
+			stroke="currentColor"
+			viewBox="0 0 24 24"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={2}
+				d="M6 18L18 6M6 6l12 12"
 			/>
 		</svg>
 	)
