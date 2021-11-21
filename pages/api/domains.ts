@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		error: 'Method not allowed'
 	});
 
-	const file = await fs.readFile(path.join(process.cwd(), 'data', 'domains.json'));
+	const file = await fs.readFile(path.join('data', 'domains.json'));
 	const domains = JSON.parse(file.toString());
 
 	res.status(200).json(domains);
