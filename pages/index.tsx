@@ -1,7 +1,6 @@
-import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import Tag from '../components/Tag';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Domain from '../components/Domain';
 import DomainCounter from '../components/DomainCounter';
 import SEO from '../components/SEO';
@@ -9,63 +8,17 @@ import FilterPopup from '../components/FilterPopup';
 
 import { useTldStore } from '../store/tlds';
 
-const fetcher = async (input: RequestInfo, init?: RequestInit) => {
-	const res = await fetch(input, init);
-
-	return res.json();
-}
-
-// This is a mess!
-export default function Home() {
+export default function Home({ data }) {
 	const router = useRouter();
-	const { data } = useSWR('/api/domains', fetcher);
-
-	let filtered = {};
-
-	const tag = router.query?.tag as string;
-	if (tag) filtered = data?.[tag] ?? {};
-
-	// Redirect to homepage if tag doesn't exist
-	useEffect(() => {
-		if (tag && data && !Object.keys(filtered).length) {
-			router.replace('/');
-		}
-	}, [tag, filtered]);
-
-	const all = [];
-
-	if (data) {
-		Object.values(data)
-			.forEach(obj =>
-				Object.keys(obj)
-					.filter(key => !key.startsWith('_'))
-					.filter(key => Array.isArray(obj[key]))
-					.forEach(key => {
-						all.push(...obj[key]);
-					})
-			);
-	}
-
-	const filteredAll = [];
-
 	const [searchValue, setSearchValue] = useState('');
 
-	if (Object.keys(filtered).length) {
-		Object.keys(filtered)
-			.filter(key => !key.startsWith('_'))
-			.filter(key => Array.isArray(filtered[key]))
-			.forEach(key => {
-				filteredAll.push(...filtered[key]);
-			})
-	}
-
-	let display = filteredAll.length ? filteredAll : all;
-	display = [...new Set(display)];
+	const tag = router.query.tag as string;
 
 	const excludedTlds = useTldStore(state => state.excluded);
-	const filteredTld = display.filter(d => !excludedTlds.some(e => d.endsWith(e)));
 
-	const filteredSearch = filteredTld.filter(d => d.includes(searchValue.toLowerCase()));
+	let filtered = data.domains
+		.filter(d => d.includes(searchValue.toLowerCase()))
+		.filter(d => !excludedTlds.some(e => d.endsWith(e)));
 
 	return (
 		<div className="flex flex-col justify-between h-screen">
@@ -77,11 +30,11 @@ export default function Home() {
 					<h1 className="text-3xl font-bold">
 						Apple Domains
 					</h1>
-					<DomainCounter all={all}
-						// meh
-						           filtered={tag ? filteredAll : all}
-						           filteredResults={filteredSearch}
-						           tag={tag}
+					<DomainCounter
+						total={data.total}
+						domains={data.domains.length}
+						filtered={filtered.length}
+						tag={tag}
 					/>
 				</div>
 				<p className="mt-6 md:mt-3">Compiled list of domains owned by Apple.</p>
@@ -103,18 +56,18 @@ export default function Home() {
 				<div className="flex flex-row flex-wrap justify-between w-full mt-2 mb-2">
 					<div className="flex flex-row flex-wrap mb-2">
 						<Tag tag="all" />
-						{data && Object.keys(data).map(k => (
+						{data?.tags?.length > 0 && data.tags.map(k => (
 							<Tag key={k} tag={k} />
 						))}
 					</div>
 
-					<FilterPopup domains={display} />
+					<FilterPopup domains={data.domains} />
 				</div>
 
 				<div className="container mt-2">
 					<div className="flex flex-wrap">
-						{filteredSearch?.length
-							? filteredSearch.map(d => (
+						{filtered?.length
+							? filtered.map(d => (
 								<Domain domain={d} />
 							))
 							: (
@@ -144,6 +97,21 @@ export default function Home() {
 			</div>
 		</div>
 	)
+}
+
+export async function getServerSideProps({ query }) {
+	const url = process.env.NODE_ENV === 'production' ? 'https://apple-domains.vercel.app' : 'http://localhost:3000';
+
+	const res = await fetch(url + '/api/domains' + (query?.tag ? `/${query.tag}` : ''));
+	const data = await res.json();
+
+	if (!data) return {
+		notFound: true
+	}
+
+	return {
+		props: { data }
+	}
 }
 
 function SearchIcon() {

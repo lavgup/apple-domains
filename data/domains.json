@@ -1,6 +1,5 @@
 {
   "main": {
-    "_description": "Apple's main domains.",
     "all": [
       "apple.com",
       "apple.net",
@@ -8,7 +7,6 @@
     ]
   },
   "products": {
-    "_description": "Domains for a wide range of Apple's products and services.",
     "mac": [
       "appleimac.com",
       "apple-imac.com",
@@ -123,7 +121,6 @@
     ]
   },
   "interesting": {
-    "_description": "Interesting domains for interesting purposes.",
     "all": [
       "alphapushpin.com",
       "appleoriginalproductions.com",
@@ -166,7 +163,6 @@
     ]
   },
   "countries": {
-    "_description": "Domains for specific countries.",
     "all": [
       "apple.be",
       "apple.bo",
@@ -228,7 +224,6 @@
     ]
   },
   "other": {
-    "_description": "Listing of Apple's more obscure domains.",
     "all": [
       "acdn1.com",
       "acdn2.com",
