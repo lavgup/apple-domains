@@ -68,9 +68,9 @@ export default function Home() {
 	const filteredSearch = filteredTld.filter(d => d.includes(searchValue.toLowerCase()));
 
 	return (
-		<>
+		<div className="flex flex-col h-screen justify-between">
 			<div
-				className="flex flex-col items-start justify-center w-full max-w-4xl px-6 pt-6 mx-auto sm:pt-6 md:pt-10 lg:pt-16">
+				className="flex flex-col items-start justify-center w-full max-w-4xl px-6 pt-6 mx-auto sm:pt-6 md:pt-10 lg:pt-12">
 				<SEO />
 
 				<div className="flex flex-row flex-wrap gap-3">
@@ -79,9 +79,9 @@ export default function Home() {
 					</h1>
 					<DomainCounter all={all}
 						// meh
-						filtered={tag ? filteredAll : all}
-						filteredResults={filteredSearch}
-						tag={tag}
+						           filtered={tag ? filteredAll : all}
+						           filteredResults={filteredSearch}
+						           tag={tag}
 					/>
 				</div>
 				<p className="mt-6 md:mt-3">Compiled list of domains owned by Apple.</p>
@@ -125,23 +125,24 @@ export default function Home() {
 						}
 					</div>
 				</div>
+			</div>
 
-				<div className="bottom-0 w-full px-1 py-8">
-					<hr className="w-full border-gray-300 rounded-lg" />
-					<div className="flex flex-row justify-between mt-8">
-						<div>
-							Built by <a className="font-medium" href="https://lavya.me">Lav</a>
-						</div>
-						<div>
-							<a className="flex flex-row align-middle" href="https://github.com/lavgup/apple-domains">
-								Contribute on
-								<GitHubIcon className="w-5 h-5 ml-2" />
-							</a>
-						</div>
+			<div className="flex flex-col justify-center w-full max-w-4xl px-6 py-6 mb-2 mx-auto">
+				<hr className="w-full border-gray-300 rounded-lg" />
+
+				<div className="flex flex-row justify-between bottom-0 w-full mt-8">
+					<div>
+						Built by <a className="font-medium" href="https://lavya.me">Lav</a>
+					</div>
+					<div>
+						<a className="flex flex-row align-middle" href="https://github.com/lavgup/apple-domains">
+							Contribute on
+							<GitHubIcon className="w-5 h-5 ml-2" />
+						</a>
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }
 

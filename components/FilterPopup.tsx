@@ -86,7 +86,10 @@ export default function FilterPopup({ domains }) {
 									<button
 										className="text-xs ml-2 inline-block bg-red-200 px-1.5 disabled:cursor-not-allowed disabled:opacity-50 hover:bg-red-300 rounded-md"
 										disabled={!excluded.length}
-										onClick={() => excluded.forEach(remove)}
+										onClick={() => {
+											closeModal();
+											excluded.forEach(remove);
+										}}
 									>
 										<p className="">
 											Revert
