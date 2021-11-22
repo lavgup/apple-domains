@@ -10,7 +10,7 @@ export default function FilterPopup({ domains }) {
 	const closeModal = () => setIsOpen(false);
 	const openModal = () => setIsOpen(true);
 
-	const tlds = [...new Set(domains.map(d => extractTld(`https://${d}`).tld))];
+	const tlds = [...new Set(domains?.map(d => extractTld(`https://${d}`).tld))];
 
 	const excluded = useTldStore(state => state.excluded);
 	const remove = useTldStore(state => state.remove);
@@ -103,7 +103,7 @@ export default function FilterPopup({ domains }) {
 								</div>
 
 								<div className="mt-2 grid sm:grid-cols-2 md:grid-cols-2 gap-1">
-									{tlds.map((t: string, idx: number) => (
+									{tlds?.map((t: string, idx: number) => (
 										<div key={idx} className="mt-0.5 flex flex-row justify-between align-baseline">
 											<p className="row-start-1">
 												.{t}

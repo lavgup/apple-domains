@@ -1,22 +1,46 @@
 import { useRouter } from 'next/router';
-import Tag from '../components/Tag';
 import { useState } from 'react';
-import Domain from '../components/Domain';
-import DomainCounter from '../components/DomainCounter';
+import useSWR from 'swr';
+import { AnimatePresence, motion } from 'framer-motion';
+
 import SEO from '../components/SEO';
+import DomainCounter from '../components/DomainCounter';
+import Tag from '../components/Tag';
 import FilterPopup from '../components/FilterPopup';
+import Domain from '../components/Domain';
 
 import { useTldStore } from '../store/tlds';
+import { parseAll, parseCategory } from '../lib/parse';
 
-export default function Home({ data }) {
+const fetcher = (input: RequestInfo, init: RequestInit) => fetch(input, init).then(res => res.json())
+
+const variants = {
+	initial: {
+		opacity: 0,
+		y: 8,
+	},
+	enter: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.4,
+			ease: [0.61, 1, 0.88, 1],
+		},
+	},
+}
+
+export default function Home() {
 	const router = useRouter();
 	const [searchValue, setSearchValue] = useState('');
 
+	const { data } = useSWR('/api/domains', fetcher);
+
 	const tag = router.query.tag as string;
+	const parsed = data && (tag ? parseCategory(data, tag) : parseAll(data));
 
 	const excludedTlds = useTldStore(state => state.excluded);
 
-	let filtered = data.domains
+	let filtered = parsed?.domains
 		.filter(d => d.includes(searchValue.toLowerCase()))
 		.filter(d => !excludedTlds.some(e => d.endsWith(e)));
 
@@ -31,9 +55,9 @@ export default function Home({ data }) {
 						Apple Domains
 					</h1>
 					<DomainCounter
-						total={data.total}
-						domains={data.domains.length}
-						filtered={filtered.length}
+						total={parsed?.total}
+						domains={parsed?.domains.length}
+						filtered={filtered?.length}
 						tag={tag}
 					/>
 				</div>
@@ -56,20 +80,26 @@ export default function Home({ data }) {
 				<div className="flex flex-row flex-wrap justify-between w-full mt-2 mb-2">
 					<div className="flex flex-row flex-wrap mb-2">
 						<Tag tag="all" />
-						{data?.tags?.length > 0 && data.tags.map(k => (
+						{parsed?.tags?.length > 0 && parsed.tags.map(k => (
 							<Tag key={k} tag={k} />
 						))}
 					</div>
 
-					<FilterPopup domains={data.domains} />
+					<FilterPopup domains={parsed?.domains} />
 				</div>
 
 				<div className="container mt-2">
-					<div className="flex flex-wrap">
+					<div>
 						{filtered?.length
-							? filtered.map(d => (
-								<Domain domain={d} />
-							))
+							? (
+								<AnimatePresence>
+									<motion.div animate="enter" initial="initia" variants={variants} className="flex flex-wrap">
+										{filtered.map((d, idx) => (
+											<Domain key={idx} domain={d} />
+										))}
+									</motion.div>
+								</AnimatePresence>
+							)
 							: (
 								<p>
 									No domains found.
@@ -97,21 +127,6 @@ export default function Home({ data }) {
 			</div>
 		</div>
 	)
-}
-
-export async function getServerSideProps({ query }) {
-	const url = process.env.NODE_ENV === 'production' ? 'https://apple-domains.vercel.app' : 'http://localhost:3000';
-
-	const res = await fetch(url + '/api/domains' + (query?.tag ? `/${query.tag}` : ''));
-	const data = await res.json();
-
-	if (!data) return {
-		notFound: true
-	}
-
-	return {
-		props: { data }
-	}
 }
 
 function SearchIcon() {

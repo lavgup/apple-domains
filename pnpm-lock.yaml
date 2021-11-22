@@ -5,6 +5,7 @@ specifiers:
   '@types/node': ^16.11.7
   '@types/react': ^17.0.35
   autoprefixer: ^10.4.0
+  framer-motion: ^5.3.1
   next: ^12.0.4
   postcss: ^8.3.11
   react: ^17.0.2
@@ -17,6 +18,7 @@ specifiers:
 
 dependencies:
   '@headlessui/react': 1.4.2_react-dom@17.0.2+react@17.0.2
+  framer-motion: 5.3.1_react-dom@17.0.2+react@17.0.2
   next: 12.0.4_react-dom@17.0.2+react@17.0.2
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
@@ -87,6 +89,19 @@ packages:
       '@babel/helper-validator-identifier': 7.15.7
       to-fast-properties: 2.0.0
     dev: false
+
+  /@emotion/is-prop-valid/0.8.8:
+    resolution: {integrity: sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==}
+    requiresBuild: true
+    dependencies:
+      '@emotion/memoize': 0.7.4
+    dev: false
+    optional: true
+
+  /@emotion/memoize/0.7.4:
+    resolution: {integrity: sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==}
+    dev: false
+    optional: true
 
   /@hapi/accept/5.0.2:
     resolution: {integrity: sha512-CmzBx/bXUR8451fnZRuZAJRlzgm0Jgu5dltTX/bszmR2lheb9BpyN47Q1RbaGTsvFzn0PXAEs+lXDKfshccYZw==}
@@ -1004,6 +1019,29 @@ packages:
     resolution: {integrity: sha512-o2RiJQ6DZaR/5+Si0qJUIy637QMRudSi9kU/FFzx9EZazrIdnBgpU+3sEWCxAVhH2RtxW2Oz+T4p2o8uOPVcgA==}
     dev: true
 
+  /framer-motion/5.3.1_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-wBqW2eAoIxGcp6zhIPlzHq9b6FqWG3Xir6ovgg/HZgbKajGLfcfYRsQU6qri0U53Qov5QZwb7CkfMjl0UIxL4A==}
+    peerDependencies:
+      react: '>=16.8 || ^17.0.0'
+      react-dom: '>=16.8 || ^17.0.0'
+    dependencies:
+      framesync: 6.0.1
+      hey-listen: 1.0.8
+      popmotion: 11.0.0
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      style-value-types: 5.0.0
+      tslib: 2.3.1
+    optionalDependencies:
+      '@emotion/is-prop-valid': 0.8.8
+    dev: false
+
+  /framesync/6.0.1:
+    resolution: {integrity: sha512-fUY88kXvGiIItgNC7wcTOl0SNRCVXMKSWW2Yzfmn7EKNc+MpCzcz9DhdHcdjbrtN3c6R4H5dTY2jiCpPdysEjA==}
+    dependencies:
+      tslib: 2.3.1
+    dev: false
+
   /fs-extra/10.0.0:
     resolution: {integrity: sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==}
     engines: {node: '>=12'}
@@ -1134,6 +1172,10 @@ packages:
   /hex-color-regex/1.1.0:
     resolution: {integrity: sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==}
     dev: true
+
+  /hey-listen/1.0.8:
+    resolution: {integrity: sha512-COpmrF2NOg4TBWUJ5UVyaCU2A88wEMkUPK4hNqyCkqHbxT92BbvfjoSozkAIIm6XhicGlJHhFdullInrdhwU8Q==}
+    dev: false
 
   /hmac-drbg/1.0.1:
     resolution: {integrity: sha1-0nRXAQJabHdabFRXk+1QL8DGSaE=}
@@ -1810,6 +1852,15 @@ packages:
     resolution: {integrity: sha512-fnWVljUchTro6RiCFvCXBbNhJc2NijN7oIQxbwsyL0buWJPG85v81ehlHI9fXrJsMNgTofEoWIQeClKpgxFLrg==}
     dev: false
 
+  /popmotion/11.0.0:
+    resolution: {integrity: sha512-kJDyaG00TtcANP5JZ51od+DCqopxBm2a/Txh3Usu23L9qntjY5wumvcVf578N8qXEHR1a+jx9XCv8zOntdYalQ==}
+    dependencies:
+      framesync: 6.0.1
+      hey-listen: 1.0.8
+      style-value-types: 5.0.0
+      tslib: 2.3.1
+    dev: false
+
   /postcss-js/3.0.3:
     resolution: {integrity: sha512-gWnoWQXKFw65Hk/mi2+WTQTHdPD5UJdDXZmX073EY/B3BWnYjO4F4t0VneTCnCGQ5E5GsCdMkzPaTXwl3r5dJw==}
     engines: {node: '>=10.0'}
@@ -2212,6 +2263,13 @@ packages:
       ansi-regex: 5.0.1
     dev: false
 
+  /style-value-types/5.0.0:
+    resolution: {integrity: sha512-08yq36Ikn4kx4YU6RD7jWEv27v4V+PUsOGa4n/as8Et3CuODMJQ00ENeAVXAeydX4Z2j1XHZF1K2sX4mGl18fA==}
+    dependencies:
+      hey-listen: 1.0.8
+      tslib: 2.3.1
+    dev: false
+
   /styled-jsx/5.0.0-beta.3_react@17.0.2:
     resolution: {integrity: sha512-HtDDGSFPvmjHIqWf9n8Oo54tAoY/DTplvlyOH2+YOtD80Sp31Ap8ffSmxhgk5EkUoJ7xepdXMGT650mSffWuRA==}
     engines: {node: '>= 12.0.0'}
@@ -2357,6 +2415,10 @@ packages:
     resolution: {integrity: sha1-qLE/1r/SSJUZZ0zN5VujaTtwbQk=}
     dependencies:
       punycode: 2.1.1
+    dev: false
+
+  /tslib/2.3.1:
+    resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
     dev: false
 
   /tty-browserify/0.0.1:

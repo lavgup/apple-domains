@@ -7,19 +7,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		error: 'Method not allowed'
 	});
 
-	let all = Object.values(domains)
-		.map(d => {
-			return Object.values(d)
-				.filter(Array.isArray)
-				.reduce((a: string[], b: string[]) => a.concat(b), [])
-		}).flat();
-	all = [...new Set(all)]
-
-	const final = {
-		domains: all,
-		tags: Object.keys(domains),
-		total: all.length
-	}
-
-	res.status(200).json(final);
+	res.status(200).json(domains);
 }
