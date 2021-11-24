@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -37,6 +37,10 @@ export default function Home() {
 
 	const tag = router.query.tag as string;
 	const parsed = data && (tag ? parseCategory(data, tag) : parseAll(data));
+
+	useEffect(() => {
+		if (tag && !data?.[tag]) router.push('/')
+	}, [tag]);
 
 	const excludedTlds = useTldStore(state => state.excluded);
 

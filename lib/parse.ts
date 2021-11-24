@@ -27,6 +27,7 @@ export function parseAll(domains): Parsed {
 
 export function parseCategory(domains, tag): Parsed {
 	const obj = domains[tag];
+	if (!obj) return null;
 
 	let category = Object.values(obj)
 		.filter(Array.isArray)
