@@ -7,7 +7,7 @@ module.exports = {
     purgeLayersByDefault: true
   },
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
     extend: {
       fontFamily: {
@@ -23,10 +23,10 @@ module.exports = {
         '2.15': '0.5375rem',
         '2.2': '0.535rem'
       }
-    },
+    }
   },
   variants: {
     extend: {},
   },
   plugins: [],
-}
+};

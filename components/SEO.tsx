@@ -25,5 +25,5 @@ export default function SEO({ title = '', description = '' }) {
 			<meta name="twitter:title" content={meta.title} />
 			<meta name="twitter:description" content={meta.description} />
 		</Head>
-	)
+	);
 }

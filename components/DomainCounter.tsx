@@ -18,5 +18,5 @@ export default function DomainCounter({ total, domains, filtered, tag }) {
 				</>
 			)}
 		</div>
-	)
+	);
 }

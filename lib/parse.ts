@@ -38,5 +38,5 @@ export function parseCategory(domains, tag): Parsed {
 		domains: category,
 		tags: Object.keys(domains),
 		total: getAllDomains(domains).length
-	}
+	};
 }
