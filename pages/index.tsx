@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import SEO from '../components/SEO';
 import DomainCounter from '../components/DomainCounter';
@@ -17,23 +17,23 @@ const fetcher = (input: RequestInfo, init: RequestInit) => fetch(input, init).th
 const variants = {
 	initial: {
 		opacity: 0,
-		y: 8,
+		y: 8
 	},
 	enter: {
 		opacity: 1,
 		y: 0,
 		transition: {
 			duration: 0.4,
-			ease: [0.61, 1, 0.88, 1],
-		},
-	},
+			ease: [0.61, 1, 0.88, 1]
+		}
+	}
 }
 
 export default function Home() {
 	const router = useRouter();
 	const [searchValue, setSearchValue] = useState('');
 
-	const { data } = useSWR('/api/domains', fetcher);
+	const { data, error } = useSWR('/api/domains', fetcher);
 
 	const tag = router.query.tag as string;
 	const parsed = data && (tag ? parseCategory(data, tag) : parseAll(data));
@@ -93,24 +93,25 @@ export default function Home() {
 				</div>
 
 				<div className="container mt-2">
-					<div>
-						{filtered?.length
-							? (
-								<AnimatePresence>
-									<motion.div animate="enter" initial="initia" variants={variants} className="flex flex-wrap">
-										{filtered.map((d, idx) => (
-											<Domain key={idx} domain={d} />
-										))}
-									</motion.div>
-								</AnimatePresence>
-							)
-							: (
-								<p>
-									No domains found.
-								</p>
-							)
-						}
-					</div>
+					{filtered?.length
+						? (
+							<motion.div
+								animate="enter"
+								initial="initial"
+								variants={variants}
+								className="flex flex-wrap"
+							>
+								{filtered.map((d, idx) => (
+									<Domain key={idx} domain={d} />
+								))}
+							</motion.div>
+						)
+						: (!data && !error) ? null : (
+							<p>
+								No domains found.
+							</p>
+						)
+					}
 				</div>
 			</div>
 

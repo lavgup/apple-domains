@@ -1,6 +1,6 @@
 {
   "main": {
-    "all": [
+    "_all": [
       "apple.com",
       "apple.net",
       "apple-inc.net"
@@ -145,8 +145,7 @@
     ]
   },
   "misspellings": {
-    "_description": "Misspelled domains to pick typos up.",
-    "all": [
+    "_all": [
       "aapple.com.br",
       "aple.com",
       "appl-e.com",
@@ -168,7 +167,7 @@
     ]
   },
   "countries": {
-    "all": [
+    "_all": [
       "apple.be",
       "apple.bo",
       "apple.ca",
@@ -229,7 +228,7 @@
     ]
   },
   "other": {
-    "all": [
+    "_all": [
       "acdn1.com",
       "acdn2.com",
       "acdn3.com",

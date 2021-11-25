@@ -75,8 +75,12 @@ export default function FilterPopup({ domains }) {
 									>
 										Filters
 									</Dialog.Title>
+
 									<button onClick={closeModal}>
-										<CloseIcon className="w-5 h-5 mt-0.5" />
+										<CloseIcon
+											className="w-5 h-5 mt-0.5"
+											aria-hidden="true"
+										/>
 									</button>
 								</div>
 								<Dialog.Description as="p" className="mt-2 text-sm text-gray-500">
