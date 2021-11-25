@@ -97,18 +97,18 @@ export default function FilterPopup({ domains }) {
 										}}
 									>
 										<p className="">
-											Revert
+											Clear
 										</p>
 									</button>
 								</div>
 
-								<div className="mt-2 grid sm:grid-cols-2 md:grid-cols-2 gap-1">
+								<div className="mt-2 grid sm:grid-cols-2 max-h-64 md:max-h-96 lg:max-h-[32rem] md:grid-cols-2 gap-1 overflow-x-auto">
 									{tlds?.map((t: string, idx: number) => (
-										<div key={idx} className="mt-0.5 flex flex-row justify-between align-baseline">
+										<div key={idx} className="mt-0.5 flex flex-row justify-between align-baseline xs:mr-10 md:mr-8">
 											<p className="row-start-1">
 												.{t}
 											</p>
-											<div className="xs:mr-24 md:mr-10">
+											<div>
 												<TldSwitch
 													tld={t}
 													excluded={excluded}
