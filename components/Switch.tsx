@@ -4,8 +4,8 @@ import { useTldStore } from '../store/tlds';
 export default function TldSwitch({ tld, excluded }) {
 	const currentlyExcluded = excluded.includes(tld);
 
-	const add = useTldStore(state => state.add);
-	const remove = useTldStore(state => state.remove);
+	const exclude = useTldStore(state => state.exclude);
+	const include = useTldStore(state => state.include);
 
 	return (
 		<Switch
@@ -13,7 +13,7 @@ export default function TldSwitch({ tld, excluded }) {
 				currentlyExcluded ? 'bg-blue-200' : 'bg-blue-500'
 			} h-5 w-10 rounded-full ml-2`}
 			checked={currentlyExcluded}
-			onChange={() => currentlyExcluded ? remove(tld) : add(tld)}
+			onChange={() => currentlyExcluded ? include(tld) : exclude(tld)}
 		>
 			<span className="sr-only">
                 {excluded.includes(tld) ? 'Remove' : 'Add'}

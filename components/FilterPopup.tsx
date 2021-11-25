@@ -13,7 +13,9 @@ export default function FilterPopup({ domains }) {
 	const tlds = [...new Set(domains?.map(d => extractTld(`https://${d}`).tld))];
 
 	const excluded = useTldStore(state => state.excluded);
-	const remove = useTldStore(state => state.remove);
+
+	const exclude = useTldStore(state => state.exclude);
+	const include = useTldStore(state => state.include);
 
 	const closeButtonRef = useRef(null);
 
@@ -89,26 +91,43 @@ export default function FilterPopup({ domains }) {
 
 								<hr className="w-full mt-2.5" />
 
-								<div className="flex flex-row mt-4">
-									<h4 className="font-medium text-md leading-6">TLDs</h4>
+								<div className="flex flex-row justify-between mt-4">
+									<div className="flex flex-row">
+										<h4 className="font-medium text-md leading-6">TLDs</h4>
 
-									<button
-										className="text-xs ml-2 inline-block bg-red-200 px-1.5 disabled:cursor-not-allowed disabled:opacity-50 hover:bg-red-300 rounded-md"
-										disabled={!excluded.length}
-										onClick={() => {
-											closeModal();
-											excluded.forEach(remove);
-										}}
-									>
-										<p className="">
+										<button
+											className="text-xs ml-2 inline-block px-1.5 bg-red-200 disabled:cursor-not-allowed disabled:opacity-50 hover:bg-red-300 rounded-md"
+											disabled={!excluded.length}
+											onClick={() => {
+												closeModal();
+												excluded.forEach(include);
+											}}
+										>
 											Clear
-										</p>
-									</button>
+										</button>
+									</div>
+
+									<div>
+										<button
+											className="text-xs inline-block bg-blue-200 p-1.5 disabled:cursor-not-allowed hover:bg-blue-300 rounded-md"
+											onClick={() => {
+												tlds.forEach((tld: string) => {
+													if (excluded.includes(tld)) include(tld);
+													else exclude(tld);
+												})
+											}}
+										>
+											Toggle all
+										</button>
+									</div>
 								</div>
 
-								<div className="mt-2 grid sm:grid-cols-2 max-h-64 md:max-h-96 lg:max-h-[32rem] md:grid-cols-2 gap-1 overflow-x-auto">
+								<div
+									className="mt-3 grid sm:grid-cols-2 max-h-64 md:max-h-96 lg:max-h-[32rem] md:grid-cols-2 gap-1 overflow-x-auto">
 									{tlds?.map((t: string, idx: number) => (
-										<div key={idx} className="mt-0.5 flex flex-row justify-between align-baseline xs:mr-10 md:mr-8">
+										<div key={idx}
+										     className="mt-0.5 flex flex-row justify-between align-baseline mr-8"
+										>
 											<p className="row-start-1">
 												.{t}
 											</p>
