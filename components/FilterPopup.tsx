@@ -103,7 +103,7 @@ export default function FilterPopup({ domains }) {
 												excluded.forEach(include);
 											}}
 										>
-											Clear
+											Revert
 										</button>
 									</div>
 
