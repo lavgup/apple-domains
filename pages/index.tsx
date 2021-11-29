@@ -42,7 +42,7 @@ export default function Home() {
 	const parsed = data && (tag ? parseCategory(data, tag) : parseAll(data, !tag && !includeDormant));
 
 	useEffect(() => {
-		if (tag && !data?.[tag]) router.push('/');
+		if (tag && data && !data[tag]) router.push('/');
 	}, [tag]);
 
 	const excludedTlds = useTldStore(state => state.excluded);
