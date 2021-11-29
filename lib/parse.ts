@@ -1,9 +1,12 @@
-function getAllDomains(domains) {
-	const arr = Object.values(domains)
-		.map(d => {
-			return Object.values(d)
+function getAllDomains(domains, dormant = null) {
+	const arr = Object.entries(domains)
+		.map(([k, v]) => {
+			return Object.values(v)
 				.filter(Array.isArray)
-				.reduce((a: string[], b: string[]) => a.concat(b), [])
+				.reduce((a: string[], b: string[]) => {
+					if (k === 'dormant' && dormant === true) return [];
+					return a.concat(b)
+				}, [])
 		}).flat();
 
 	return [...new Set(arr)];
@@ -15,8 +18,8 @@ interface Parsed {
 	total: number
 }
 
-export function parseAll(domains): Parsed {
-	let all = getAllDomains(domains);
+export function parseAll(domains, dormant): Parsed {
+	let all = getAllDomains(domains, dormant);
 
 	return {
 		domains: all,

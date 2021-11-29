@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 export default function SEO({ title = '', description = '' }) {
 	const router = useRouter();
 
+	router.query.tag && (title = router.query.tag as string);
+
 	const meta = {
 		title: title ? `Apple Domains - ${title}` : 'Apple Domains',
 		description: description || 'Find a wide variety of domains owned by Apple.',

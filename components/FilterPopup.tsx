@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useRef, useState } from 'react';
 import { useTldStore } from '../store/tlds';
 import extractTld from 'tld-extract';
-import TldSwitch from './Switch';
+import { DormantSwitch, TldSwitch } from './Switch';
 
 export default function FilterPopup({ domains }) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -90,6 +90,15 @@ export default function FilterPopup({ domains }) {
 								</Dialog.Description>
 
 								<hr className="w-full mt-2.5" />
+
+								<div className="mt-4 mb-8">
+									<h4 className="font-medium text-md leading-6">Include dormant domains</h4>
+									<p className="mt-1 text-sm text-gray-500">
+										Include domains that are owned by Apple, but do not resolve.
+									</p>
+
+									<DormantSwitch closeModal={closeModal} />
+								</div>
 
 								<div className="flex flex-row justify-between mt-4">
 									<div className="flex flex-row">

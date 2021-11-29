@@ -11,6 +11,7 @@ import Domain from '../components/Domain';
 
 import { useTldStore } from '../store/tlds';
 import { parseAll, parseCategory } from '../lib/parse';
+import { useDormantStore } from '../store/dormant';
 
 const fetcher = (input: RequestInfo, init: RequestInit) => fetch(input, init).then(res => res.json())
 
@@ -36,7 +37,9 @@ export default function Home() {
 	const { data, error } = useSWR('/api/domains', fetcher);
 
 	const tag = router.query.tag as string;
-	const parsed = data && (tag ? parseCategory(data, tag) : parseAll(data));
+
+	const includeDormant = useDormantStore(state => state.included);
+	const parsed = data && (tag ? parseCategory(data, tag) : parseAll(data, !tag && !includeDormant));
 
 	useEffect(() => {
 		if (tag && !data?.[tag]) router.push('/');
@@ -44,7 +47,7 @@ export default function Home() {
 
 	const excludedTlds = useTldStore(state => state.excluded);
 
-	let filtered = parsed?.domains
+	const filtered = parsed?.domains
 		.filter(d => d.includes(searchValue.toLowerCase()))
 		.filter(d => !excludedTlds.some(e => d.endsWith(e)));
 
