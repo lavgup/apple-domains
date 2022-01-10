@@ -1,7 +1,7 @@
 import { Switch } from '@headlessui/react';
 
-import { useDormantStore } from '../store/dormant';
-import { useTldStore } from '../store/tlds';
+import { useDormantStore } from '@store/dormant';
+import { useTldStore } from '@store/tlds';
 
 function MainSwitch({ checked, ...props }) {
 	return (

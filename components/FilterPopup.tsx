@@ -1,8 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useRef, useState } from 'react';
-import { useTldStore } from '../store/tlds';
+import { useTldStore } from '@store/tlds';
 import extractTld from 'tld-extract';
 import { DormantSwitch, TldSwitch } from './Switch';
+import CloseIcon from '@components/icons/close';
+import FilterIcon from '@components/icons/filter';
 
 export default function FilterPopup({ domains }) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +12,7 @@ export default function FilterPopup({ domains }) {
 	const closeModal = () => setIsOpen(false);
 	const openModal = () => setIsOpen(true);
 
-	const tlds = [...new Set(domains?.map(d => extractTld(`https://${d}`).tld))];
+	const tlds = [...new Set(domains?.map(d => extractTld(d).tld))];
 
 	const excluded = useTldStore(state => state.excluded);
 
@@ -23,9 +25,11 @@ export default function FilterPopup({ domains }) {
 		<>
 			<div className="relative inline-block text-left text-right">
 				<button
+					tabIndex={5}
 					type="button"
 					onClick={openModal}
-					className="flex flex-row pl-3 pr-2 mt-1 pt-0.75 pb-0.75 justify-between text-sm font-medium text-gray-500 bg-[#DCDCE0] rounded-md hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+					className="flex flex-row pl-3 pr-2 mt-1 pt-0.75 pb-0.75 justify-between text-sm font-medium text-gray-500 bg-[#DCDCE0] rounded-md hover:bg-gray-200"
+				>
 					Filter
 
 					<FilterIcon className="h-5 w-5 ml-1.5" />
@@ -132,7 +136,7 @@ export default function FilterPopup({ domains }) {
 								</div>
 
 								<div
-									className="mt-3 grid sm:grid-cols-2 max-h-64 md:max-h-96 lg:max-h-[32rem] md:grid-cols-2 gap-1 overflow-x-auto">
+									className="mt-3 grid sm:grid-cols-2 max-h-64 md:max-h-72 lg:max-h-[24rem] md:grid-cols-2 gap-1 overflow-x-auto">
 									{tlds?.map((t: string, idx: number) => (
 										<div key={idx}
 										     className="mt-0.5 flex flex-row justify-between align-baseline mr-8"
@@ -140,7 +144,7 @@ export default function FilterPopup({ domains }) {
 											<p className="row-start-1">
 												.{t}
 											</p>
-											<div>
+											<div className="transition-colors">
 												<TldSwitch
 													tld={t}
 													excluded={excluded}
@@ -166,43 +170,5 @@ export default function FilterPopup({ domains }) {
 				</Dialog>
 			</Transition>
 		</>
-	);
-}
-
-function FilterIcon(props) {
-	return (
-		<svg
-			{...props}
-			fill="none"
-			stroke="currentColor"
-			viewBox="0 0 24 24"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<path
-				strokeLinecap="round"
-				strokeLinejoin="round"
-				strokeWidth={2}
-				d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-			/>
-		</svg>
-	);
-}
-
-function CloseIcon(props) {
-	return (
-		<svg
-			{...props}
-			fill="none"
-			stroke="currentColor"
-			viewBox="0 0 24 24"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<path
-				strokeLinecap="round"
-				strokeLinejoin="round"
-				strokeWidth={2}
-				d="M6 18L18 6M6 6l12 12"
-			/>
-		</svg>
 	);
 }

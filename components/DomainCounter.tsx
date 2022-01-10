@@ -13,7 +13,7 @@ export default function DomainCounter({ total, domains, filtered, tag }) {
 			{domains > filtered && (
 				<>
 					<span className="mx-2 text-sm text-gray-500">/</span><span
-                    className="font-semibold text-gray-600">{filtered}</span><span
+                    className="font-semibold text-gray-600">{domains - filtered}</span><span
                     className="ml-1 text-xs text-gray-400 uppercase">FILTERED</span>
 				</>
 			)}
