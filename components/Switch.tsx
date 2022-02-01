@@ -1,6 +1,5 @@
 import { Switch } from '@headlessui/react';
 
-import { useDormantStore } from '@store/dormant';
 import { useTldStore } from '@store/tlds';
 
 function MainSwitch({ checked, ...props }) {
@@ -25,23 +24,6 @@ function MainSwitch({ checked, ...props }) {
 			/>
 		</Switch>
 	)
-}
-
-export function DormantSwitch({ closeModal }) {
-	const included = useDormantStore(state => state.included);
-	const set = useDormantStore(state => state.set);
-
-	return (
-		<MainSwitch
-			checked={!included}
-			className="mt-3"
-			sr="Dormant"
-			onChange={() => {
-				set(!included);
-				closeModal();
-			}}
-		/>
-	);
 }
 
 export function TldSwitch({ tld, excluded }) {
