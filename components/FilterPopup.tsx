@@ -144,15 +144,20 @@ export default function FilterPopup({ domains }) {
 								</div>
 
 								<div
-									className="mt-3 grid sm:grid-cols-2 max-h-64 md:max-h-72 lg:max-h-[24rem] md:grid-cols-2 gap-1 overflow-x-auto">
+									className="mt-3 grid sm:grid-cols-2 max-h-64 md:max-h-72 lg:max-h-[24rem] gap-1 overflow-x-auto">
 									{filteredTlds?.map((t: string, idx: number) => (
 										<div key={idx}
-										     className="mt-0.5 flex flex-row justify-between align-baseline mr-8"
+										     className="flex justify-between py-[.1rem] pr-4 text-left"
 										>
-											<p className="row-start-1">
-												.{t}
-											</p>
-											<div className="transition-colors">
+											<div className="flex justify-start gap-2">
+												<span className="h-full w-1 bg-gray-200" />
+												<p>
+													.{t}
+												</p>
+											</div>
+
+
+											<div className="transition-colors translate-y-1.5">
 												<TldSwitch
 													tld={t}
 													excluded={excluded}
