@@ -5,8 +5,10 @@ import extractTld from 'tld-extract';
 import { TldSwitch } from './Switch';
 import CloseIcon from '@components/icons/close';
 import FilterIcon from '@components/icons/filter';
+import SearchIcon from '@components/icons/search';
 
 export default function FilterPopup({ domains }) {
+	const [searchValue, setSearchValue] = useState('');
 	const [isOpen, setIsOpen] = useState(false);
 
 	const closeModal = () => setIsOpen(false);
@@ -14,12 +16,13 @@ export default function FilterPopup({ domains }) {
 
 	const tlds = [...new Set(domains?.map(d => extractTld(d).tld))];
 
-	const excluded = useTldStore(state => state.excluded);
-
-	const exclude = useTldStore(state => state.exclude);
-	const include = useTldStore(state => state.include);
+	const { excluded, exclude, include } = useTldStore();
 
 	const closeButtonRef = useRef(null);
+
+	const filteredTlds = tlds
+		.filter((tld: string) => tld.toLowerCase().includes(searchValue.toLowerCase()))
+		.sort();
 
 	return (
 		<>
@@ -101,10 +104,10 @@ export default function FilterPopup({ domains }) {
 
 										<button
 											className="text-xs ml-2 inline-block px-1.5 bg-red-200 disabled:cursor-not-allowed disabled:opacity-50 hover:bg-red-300 rounded-md"
-											disabled={!excluded.length}
+											disabled={filteredTlds.length !== tlds.length ? false : !excluded.length}
 											onClick={() => {
-												closeModal();
 												excluded.forEach(include);
+												setSearchValue('');
 											}}
 										>
 											Revert
@@ -126,9 +129,23 @@ export default function FilterPopup({ domains }) {
 									</div>
 								</div>
 
+								<div className="relative w-full mt-2 text-sm">
+									<input
+										tabIndex={1}
+										value={searchValue}
+										aria-label="Search"
+										type="text"
+										onChange={(e) => setSearchValue(e.target.value)}
+										placeholder="Search"
+										className="block w-full px-3 py-1 text-gray-900 bg-white border border-gray-200 rounded-md text-md dark:border-gray-900 focus:ring-blue-500 focus:border-blue-500"
+									/>
+
+									<SearchIcon />
+								</div>
+
 								<div
 									className="mt-3 grid sm:grid-cols-2 max-h-64 md:max-h-72 lg:max-h-[24rem] md:grid-cols-2 gap-1 overflow-x-auto">
-									{tlds?.map((t: string, idx: number) => (
+									{filteredTlds?.map((t: string, idx: number) => (
 										<div key={idx}
 										     className="mt-0.5 flex flex-row justify-between align-baseline mr-8"
 										>
